@@ -1,6 +1,4 @@
 # Probabilistic Modeling of Political Networks  
-**Final Project – Probabilistic Programming**
-
 ## Overview
 This repository contains my **final project** and **lab work** for the Probabilistic Programming course.  
 The project applies **Bayesian modeling** and **latent space methods** to political interaction networks, uncovering hidden social structure, leadership, negotiation roles, and faction alignment under uncertainty.
@@ -40,9 +38,18 @@ Where:
   - Nodes 39 and 41 are nearly tied
 - Most influential nodes are not necessarily the best negotiators
 
+  <img src="figures/latent_space_ex1.png" width="50%">
+
 **Model checks**
 - Good MCMC convergence (R-hat ≈ 1)
-- Posterior predictive checks show good fit with minor tail mismatch
+- Posterior predictive checks show good fit
+
+| Parameter | Mean  | SD    | HDI 3% | HDI 97% | MCSE Mean | MCSE SD | ESS (Bulk) | ESS (Tail) | R-hat |
+|----------|-------|-------|--------|---------|-----------|---------|------------|------------|-------|
+| Intercept | 3.625 | 0.022 | 3.583  | 3.667   | 0.004     | 0.000   | 35         | 569        | 1.07  |
+| Sigma_u   | 2.098 | 0.136 | 1.855  | 2.362   | 0.002     | 0.001   | 6620       | 7034       | 1.00  |
+
+
 
 ---
 
@@ -67,11 +74,5 @@ Where:
 - Probabilistic predictions capture genuine ambiguity
 - Simulations suggest Caesar is slightly more likely to recruit more Crassus members
 - Identifies the most undecided politicians (probabilities near 0.5)
-
----
-
-## Key Takeaways
-- Latent space models reveal hidden political structure
-- Bayesian inference enables uncertainty-aware conclusions
-- Influence, negotiation, and allegiance are distinct roles
-- Joint probabilistic modeling outperforms simple heuristics
+  
+  <img src="figures/latent_space_ex2.png" width="90%">
