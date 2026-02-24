@@ -2,7 +2,8 @@
 **Final Project – Probabilistic Programming**
 
 ## Overview
-This project applies **Bayesian probabilistic modeling** and **latent space models** to analyze political interaction networks. Using message and meeting count data, it uncovers hidden social structure, leadership, negotiation roles, and faction alignment under uncertainty.
+This repository contains my **final project** and **lab work** for the Probabilistic Programming course.  
+The project applies **Bayesian modeling** and **latent space methods** to political interaction networks, uncovering hidden social structure, leadership, negotiation roles, and faction alignment under uncertainty.
 
 **Tools:** Python, PyMC, ArviZ, NetworkX, NumPy/SciPy, Matplotlib, Pandas
 
@@ -10,56 +11,67 @@ This project applies **Bayesian probabilistic modeling** and **latent space mode
 
 ## Exercise 1 – Influence in a Bipartisan Network
 
-**Data:**  
-- Nodes = politicians, edges = number of exchanged messages  
-- Two known factions (A, B)  
-- Count data modeled with a Poisson distribution
+**Data**
+- Nodes represent politicians
+- Edges represent message counts
+- Two known factions (A and B)
+- Count data modeled using a Poisson likelihood
 
-**Model:** Latent Distance Model  
-\[
-\lambda_{ij} = \exp(\beta_0 - \|U_i - U_j\|), \quad
-Y_{ij} \sim \text{Poisson}(\lambda_{ij})
-\]
-- \(U_i \in \mathbb{R}^2\): latent social positions  
-- Closer nodes interact more frequently
+**Model: Latent Distance Model**
 
-**Findings:**
-- Latent space clearly separates the two factions
-- **Faction A:** centralized, hierarchical leadership  
+- Interaction rate between nodes *i* and *j*:
+```math
+\lambda_{ij} = \exp\left(\beta_0 - \lVert U_i - U_j \rVert\right)
+```
+- Observed messages:
+```math
+Y_{ij} \approx Poisson(\lambda_{ij})
+```
+
+Where:
+- U_i is the 2D latent position of node *i*
+- Smaller latent distance implies stronger interaction
+
+**Findings**
+- Latent space cleanly separates the two factions
+- **Faction A:** centralized, hierarchical structure  
   - Node 23 is most influential (≈84% posterior probability)
 - **Faction B:** decentralized, competitive leadership  
   - Nodes 39 and 41 are nearly tied
-- Best negotiators (cross-faction bridges) are *not* always the most influential nodes
+- Most influential nodes are not necessarily the best negotiators
 
-**Model checks:**  
-- Good MCMC convergence (R-hat ≈ 1)  
-- Posterior predictive checks show good fit, with minor tail misfit
+**Model checks**
+- Good MCMC convergence (R-hat ≈ 1)
+- Posterior predictive checks show good fit with minor tail mismatch
 
 ---
 
 ## Exercise 2 – Splitting the Triumvirate
 
-**Data:**  
-- Three factions: Caesar, Pompey, Crassus  
-- Crassus members have unknown future allegiance  
-- Meeting counts show strong overdispersion
+**Data**
+- Three factions: Caesar, Pompey, Crassus
+- Crassus members have unknown future allegiance
+- Meeting counts exhibit strong overdispersion
 
-**Model:** Joint Latent Space + Classifier  
-- Anchored latent space (Caesar at (0,0), Pompey at (2,0))  
-- Meetings modeled with a **Negative Binomial** likelihood  
+**Model: Joint Latent Space + Classifier**
+- Anchored latent space:
+  - Caesar fixed at (0, 0)
+  - Pompey fixed at (2, 0)
+- Meetings modeled with a **Negative Binomial** likelihood
 - Logistic classifier predicts faction membership from latent positions
+- Latent positions and faction probabilities inferred jointly
 
-**Findings:**
-- Clear separation between Caesar and Pompey in latent space
+**Findings**
+- Clear latent separation between Caesar and Pompey
 - 70% accuracy on known Crassus labels
-- Probabilistic predictions reflect genuine ambiguity for some nodes
-- Simulations show Caesar is slightly more likely to recruit more Crassus members
+- Probabilistic predictions capture genuine ambiguity
+- Simulations suggest Caesar is slightly more likely to recruit more Crassus members
 - Identifies the most undecided politicians (probabilities near 0.5)
 
 ---
 
 ## Key Takeaways
-- Latent space models effectively reveal hidden political structure  
-- Bayesian inference enables uncertainty-aware leadership and faction analysis  
-- Influence, negotiation, and allegiance are distinct social roles  
-- Joint modeling outperforms simple heuristic approaches
+- Latent space models reveal hidden political structure
+- Bayesian inference enables uncertainty-aware conclusions
+- Influence, negotiation, and allegiance are distinct roles
+- Joint probabilistic modeling outperforms simple heuristics
